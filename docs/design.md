@@ -24,7 +24,7 @@ Dependencies and the package manager are pinned; `package.json` owns the version
 
 Cloudflare Workers serves only static assets. No Worker request handler, D1, KV,
 R2, or application secrets are necessary. The Worker is `sleepy`; the sole custom
-domain is **https://sleeply.hexly.ai**. Missing routes and assets must return 404,
+domain is **https://sleepy.hexly.ai**. Missing routes and assets must return 404,
 never a successful application-shell fallback.
 
 Workbox precaches the built shell, every poem, fonts, and icons. Navigation fallback
@@ -67,4 +67,3 @@ only public-domain classics, as authorized by the owner.
 5. Deploy only the approved Cloudflare Worker/domain, record the source SHA and
    deployment version, verify live HTTPS/assets/headers, push `main`, and observe
    the CI result for that exact revision. Preserve screenshots and a release report.
-

@@ -1,0 +1,1339 @@
+@font-face {
+  font-family: "Sleepy Serif";
+  src: url("/fonts/sleepy-serif.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --paper: #f4f1ea;
+  --surface: #faf8f3;
+  --ink: #293f35;
+  --secondary: #667267;
+  --muted: #70796f;
+  --accent: #4d6955;
+  --accent-soft: #e6eadf;
+  --line: #dddcd2;
+  --seal: #a86048;
+  --moon: #ece4cb;
+  --mountain: #536857;
+  --overlay: rgb(27 40 32 / 28%);
+  --shadow: 0 24px 80px rgb(34 48 38 / 12%);
+  --serif: "Sleepy Serif", "Songti SC", "Noto Serif CJK SC", serif;
+  --sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --radius: 20px;
+  --page-gutter: clamp(24px, 5vw, 80px);
+  --dock-height: calc(96px + env(safe-area-inset-bottom, 0px));
+  --header-height: calc(104px + env(safe-area-inset-top, 0px));
+  --type-scale: 1;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #152927;
+  --surface: #1b302d;
+  --ink: #e1e4d5;
+  --secondary: #a4b2a5;
+  --muted: #98a99d;
+  --accent: #bacaa7;
+  --accent-soft: #30463d;
+  --line: #344741;
+  --seal: #d2967c;
+  --moon: #c2c4a5;
+  --mountain: #a7b49d;
+  --overlay: rgb(3 14 12 / 56%);
+  --shadow: 0 24px 80px rgb(0 0 0 / 24%);
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  min-height: 100%;
+  scroll-padding-top: var(--header-height);
+}
+body {
+  margin: 0;
+  min-width: 280px;
+  background: var(--paper);
+}
+body.dialog-open {
+  overflow: hidden;
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  color: inherit;
+  cursor: pointer;
+}
+button {
+  border: 0;
+  background: none;
+}
+button,
+a {
+  touch-action: manipulation;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+button,
+a {
+  -webkit-user-select: none;
+  user-select: none;
+}
+a {
+  color: var(--accent);
+  text-underline-offset: 5px;
+}
+button svg {
+  flex-shrink: 0;
+  stroke-width: 1.6;
+}
+::selection {
+  color: var(--paper);
+  background: var(--accent);
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip-link {
+  position: fixed;
+  top: -120px;
+  left: var(--page-gutter);
+  padding: var(--space-4);
+  background: var(--surface);
+  z-index: 50;
+}
+.skip-link:focus {
+  top: var(--space-4);
+}
+.app {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding-bottom: var(--dock-height);
+}
+.text-regular {
+  --type-scale: 0.88;
+}
+.text-large {
+  --type-scale: 1;
+}
+.text-larger {
+  --type-scale: 1.15;
+}
+
+.landscape {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+.moon-disc {
+  position: absolute;
+  width: clamp(130px, 14vw, 206px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  top: 20%;
+  right: 14%;
+  background: radial-gradient(circle at 35% 28%, var(--surface), var(--moon));
+  opacity: 0.72;
+  box-shadow: 0 0 80px 24px color-mix(in srgb, var(--moon) 15%, transparent);
+}
+.moon-halo {
+  position: absolute;
+  width: min(58vw, 780px);
+  aspect-ratio: 1;
+  top: -10%;
+  right: -9%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--moon) 14%, transparent),
+    transparent 68%
+  );
+}
+.moon-caption {
+  position: absolute;
+  top: 46%;
+  right: 17.5%;
+  color: var(--secondary);
+  font-family: var(--serif);
+  font-size: 12px;
+  line-height: 2.4;
+  letter-spacing: 0.18em;
+  opacity: 0.8;
+}
+.mountains {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: min(72vh, 700px);
+  color: var(--mountain);
+}
+.horizon-line {
+  position: absolute;
+  width: 15%;
+  height: 1px;
+  background: var(--line);
+  right: 15%;
+  bottom: 20%;
+  opacity: 0.5;
+}
+.site-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-height);
+  gap: var(--space-6);
+  padding: env(safe-area-inset-top, 0px)
+    max(var(--page-gutter), env(safe-area-inset-right, 0px)) 0
+    max(var(--page-gutter), env(safe-area-inset-left, 0px));
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  font-family: Georgia, serif;
+  font-size: 34px;
+  letter-spacing: -1.4px;
+  min-height: 48px;
+}
+.brand-moon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  box-shadow: -6px 3px 0 0 var(--ink);
+  transform: rotate(-14deg);
+  margin-left: 6px;
+  margin-right: 2px;
+}
+.brand-dot {
+  color: var(--seal);
+}
+.header-note {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--secondary);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-3);
+  border-radius: 50%;
+  color: var(--secondary);
+  transition:
+    color 160ms,
+    background 160ms,
+    transform 220ms var(--ease);
+}
+.text-button {
+  min-height: 44px;
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  color: var(--secondary);
+  font-size: 13px;
+  border-radius: 12px;
+}
+.toolbar-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--line);
+  margin: 0 var(--space-2);
+}
+@media (hover: hover) {
+  .icon-button:hover,
+  .text-button:hover {
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+  .poem-list-item:hover {
+    background: var(--accent-soft);
+  }
+  .together-button:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .text-link:hover {
+    color: var(--ink);
+  }
+  .brand:hover .brand-moon {
+    transform: rotate(-28deg);
+  }
+}
+button:active {
+  transform: translateY(1px);
+}
+.reading-main {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 660px) 1fr;
+  align-items: center;
+  column-gap: var(--space-8);
+  width: min(1360px, 100%);
+  margin: 0 auto;
+  padding: var(--space-6) max(var(--page-gutter), env(safe-area-inset-right, 0px))
+    var(--space-10) max(var(--page-gutter), env(safe-area-inset-left, 0px));
+}
+.chapter-mark {
+  align-self: center;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  writing-mode: vertical-rl;
+  color: var(--secondary);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+}
+.chapter-mark i {
+  width: 1px;
+  height: 56px;
+  background: var(--line);
+}
+.poem-page {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  animation: open-page 650ms var(--ease) both;
+}
+.poem-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  color: var(--secondary);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-6);
+}
+.tiny-star {
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1;
+}
+.kicker-rule {
+  height: 1px;
+  width: 28px;
+  background: var(--line);
+}
+.poem-heading h1 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.13em;
+  padding-left: 0.13em;
+  text-wrap: balance;
+}
+.poem-heading h1:focus {
+  outline: none;
+}
+.poet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  color: var(--secondary);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+}
+.poet > span {
+  color: var(--muted);
+}
+.excerpt-tag {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+.poem-lines {
+  margin-top: var(--space-8);
+  font-family: var(--serif);
+  font-size: calc(clamp(27.2px, 7.8vw, 44px) * var(--type-scale));
+  line-height: 1.92;
+  letter-spacing: 0.07em;
+  font-weight: 400;
+}
+.poem-lines p {
+  padding-left: 0.07em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.poem-afterword {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  color: var(--secondary);
+  font-size: 12px;
+  letter-spacing: 0.09em;
+}
+.poem-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 25px;
+  border: 1px solid var(--seal);
+  border-radius: 4px 2px 4px 2px;
+  color: var(--seal);
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  opacity: 0.9;
+}
+.favorite-button {
+  margin-left: var(--space-1);
+}
+.is-saved {
+  color: var(--seal);
+}
+.together-button {
+  display: inline-flex;
+  width: 306px;
+  max-width: 100%;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  text-align: left;
+  background: color-mix(in srgb, var(--paper) 65%, transparent);
+  color: var(--secondary);
+  font-size: 13px;
+  transition:
+    border-color 200ms,
+    transform 250ms var(--ease);
+}
+.together-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--accent);
+}
+.together-button > span:nth-child(2) {
+  flex: 1;
+  line-height: 1.6;
+}
+.together-subtitle {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.side-inscription {
+  display: flex;
+  gap: var(--space-4);
+  align-self: end;
+  justify-self: end;
+  margin: 0 var(--space-12) var(--space-16) 0;
+  writing-mode: vertical-rl;
+  font-family: var(--serif);
+  font-size: 19px;
+  letter-spacing: 0.4em;
+  line-height: 1.4;
+  color: var(--secondary);
+}
+.side-inscription span:nth-child(2) {
+  margin-top: var(--space-10);
+}
+.side-inscription i {
+  width: 1px;
+  height: var(--space-8);
+  background: var(--seal);
+  margin-top: var(--space-2);
+  opacity: 0.55;
+}
+.excerpt-note {
+  font-size: 12px;
+  color: var(--secondary);
+  margin-top: var(--space-5);
+  line-height: 1.8;
+}
+.poem-source {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 12px;
+  margin-top: var(--space-6);
+  min-height: 44px;
+}
+.long-poem {
+  padding-top: var(--space-6);
+}
+.reading-dock {
+  position: fixed;
+  z-index: 5;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 max(var(--page-gutter), env(safe-area-inset-right, 0px))
+    env(safe-area-inset-bottom, 0px)
+    max(var(--page-gutter), env(safe-area-inset-left, 0px));
+  background: var(--paper);
+}
+.dock-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  max-width: 1280px;
+  min-height: 96px;
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+.dock-caption {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  color: var(--secondary);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: var(--space-3) 0;
+  min-height: 44px;
+  text-align: left;
+  justify-self: start;
+}
+.status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.75;
+}
+.page-navigation {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.page-navigation > .icon-button {
+  border: 1px solid var(--line);
+}
+.page-count {
+  font-family: var(--sans);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  font-size: 12px;
+  color: var(--secondary);
+  font-variant-numeric: tabular-nums;
+}
+.page-count span {
+  color: var(--ink);
+  font-weight: 500;
+}
+.page-count i {
+  font-style: normal;
+  opacity: 0.45;
+}
+.surprise-button {
+  justify-self: end;
+  letter-spacing: 0.04em;
+}
+.is-quiet {
+  padding-bottom: 0;
+}
+.is-quiet .reading-main {
+  min-height: 100dvh;
+  padding-top: calc(76px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+}
+.is-quiet .chapter-mark,
+.is-quiet .side-inscription,
+.is-quiet .poem-kicker,
+.is-quiet .poem-afterword {
+  display: none;
+}
+.quiet-exit {
+  position: fixed;
+  z-index: 10;
+  top: max(var(--space-4), env(safe-area-inset-top, 0px));
+  right: max(var(--space-5), env(safe-area-inset-right, 0px));
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.quiet-navigation {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  position: fixed;
+  z-index: 5;
+  bottom: max(var(--space-4), env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 50px;
+  padding: 2px var(--space-2);
+  color: var(--secondary);
+  font-size: 11px;
+}
+
+.sheet {
+  padding: 0;
+  margin: auto;
+  width: min(580px, calc(100vw - 48px));
+  max-height: min(850px, calc(100dvh - 64px));
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.sheet[open] {
+  display: flex;
+  flex-direction: column;
+  animation: open-sheet 260ms var(--ease) both;
+}
+.sheet::backdrop {
+  background: var(--overlay);
+}
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-8) var(--space-6);
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+.sheet-header h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+  margin-top: var(--space-3);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+.close-button {
+  margin: -6px -10px 0 0;
+}
+.sheet-content {
+  padding: var(--space-6) var(--space-8) var(--space-8);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.library-sheet {
+  width: min(700px, calc(100vw - 48px));
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--secondary);
+  background: var(--paper);
+}
+.search-box:focus-within {
+  border-color: var(--accent);
+}
+.search-box input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: none;
+  color: var(--ink);
+  font-size: 16px;
+  min-height: 48px;
+  outline-offset: 0;
+  padding: var(--space-2) 0;
+}
+.search-box input::placeholder {
+  color: var(--muted);
+  font-size: 13px;
+}
+.search-box input:focus-visible {
+  outline: none;
+}
+.filter-list {
+  padding: 0;
+  border: 0;
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin: var(--space-5) 0;
+}
+.filter-list button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  color: var(--secondary);
+  border: 1px solid transparent;
+  border-radius: 50px;
+  font-size: 13px;
+}
+.filter-list button[aria-pressed="true"] {
+  background: var(--accent-soft);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.collection-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: 11px;
+  color: var(--muted);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+.poem-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-2);
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  transition: background 160ms;
+}
+.list-number {
+  color: var(--muted);
+  font-size: 11px;
+  min-width: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.list-poem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 7px;
+}
+.list-poem-title {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.5;
+}
+.list-poem-title small {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--secondary);
+  margin-left: var(--space-2);
+}
+.list-poem-preview {
+  font-size: 12px;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.list-poet {
+  color: var(--secondary);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.list-current {
+  display: flex;
+  align-items: center;
+  color: var(--accent);
+}
+.poem-list-item[aria-current="true"] .list-poem-title {
+  color: var(--accent);
+}
+.collection-footnote {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.8;
+  padding-top: var(--space-5);
+}
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-4);
+  color: var(--secondary);
+  gap: var(--space-4);
+}
+.empty-state p {
+  font-family: var(--serif);
+  font-size: 20px;
+}
+.empty-state span {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.together-poem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--secondary);
+  margin-bottom: var(--space-6);
+  font-size: 12px;
+}
+.together-poem span:first-child {
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--ink);
+}
+.reading-note {
+  margin-bottom: var(--space-6);
+}
+.reading-note h3,
+.bedtime-note h3 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.8;
+  margin-bottom: var(--space-3);
+}
+.reading-note h3 > span {
+  font-size: 11px;
+  color: var(--muted);
+  margin-right: var(--space-2);
+}
+.reading-note p {
+  font-size: 14px;
+  color: var(--secondary);
+  line-height: 2;
+  margin-bottom: var(--space-2);
+}
+.reading-note small,
+.small-print {
+  display: block;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.word-notes {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: var(--space-6);
+}
+.word-notes > div {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  padding-top: var(--space-2);
+}
+.word-notes ruby {
+  flex-shrink: 0;
+  font-family: var(--serif);
+  font-size: 18px;
+  min-width: 60px;
+}
+.word-notes rt {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--secondary);
+}
+.word-notes > div > span {
+  font-size: 12px;
+  color: var(--secondary);
+  line-height: 1.8;
+}
+.bedtime-note {
+  padding: var(--space-5) var(--space-6) var(--space-6);
+  border-radius: 16px;
+  background: var(--accent-soft);
+  margin-bottom: var(--space-5);
+}
+.bedtime-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.bedtime-title h3 {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin: 0;
+}
+.bedtime-note p {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 2;
+  margin-top: var(--space-2);
+}
+.setting-group {
+  padding: 0;
+  margin: 0 0 var(--space-6);
+  border: 0;
+}
+.setting-group legend {
+  font-size: 13px;
+  color: var(--secondary);
+  margin-bottom: var(--space-3);
+}
+.segmented-control {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.segmented-control button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 52px;
+  padding: var(--space-3) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--secondary);
+}
+.segmented-control button[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.system-circle {
+  height: 15px;
+  width: 15px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+.size-options button {
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: 84px;
+}
+.size-preview {
+  font-family: var(--serif);
+}
+.size-preview.regular {
+  font-size: 20px;
+}
+.size-preview.large {
+  font-size: 24px;
+}
+.size-preview.larger {
+  font-size: 28px;
+}
+.type-preview {
+  padding: var(--space-4) 0 var(--space-8);
+  text-align: center;
+  font-family: var(--serif);
+  font-size: calc(30px * var(--type-scale));
+  letter-spacing: 0.1em;
+  line-height: 1.9;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  min-height: 44px;
+  font-size: 12px;
+  color: var(--secondary);
+}
+.about-link {
+  margin-top: var(--space-4);
+}
+.about-intro {
+  font-family: var(--serif);
+  font-size: 23px;
+  line-height: 1.9;
+  margin-bottom: var(--space-8);
+  text-wrap: balance;
+}
+.toast {
+  position: fixed;
+  z-index: 30;
+  bottom: calc(var(--dock-height) + var(--space-4));
+  left: 50%;
+  transform: translate(-50%, 8px);
+  width: max-content;
+  max-width: calc(100% - 48px);
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: 40px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 200ms,
+    transform 200ms;
+  text-align: center;
+}
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@keyframes open-page {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes open-sheet {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 1600px) {
+  .reading-main {
+    grid-template-columns: 56px minmax(0, 720px) 1fr;
+  }
+}
+@media (max-width: 1100px) {
+  .header-note {
+    display: none;
+  }
+  .reading-main {
+    grid-template-columns: 32px minmax(0, 600px) 1fr;
+    column-gap: var(--space-4);
+  }
+  .side-inscription {
+    margin-right: 0;
+    font-size: 16px;
+    gap: var(--space-3);
+  }
+  .moon-disc {
+    right: 7%;
+    opacity: 0.55;
+  }
+  .moon-caption {
+    display: none;
+  }
+  .dock-caption {
+    font-size: 11px;
+    max-width: 190px;
+  }
+}
+@media (max-width: 760px) {
+  :root {
+    --header-height: calc(80px + env(safe-area-inset-top, 0px));
+    --dock-height: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+  .site-header {
+    gap: var(--space-2);
+  }
+  .brand {
+    font-size: 29px;
+    gap: var(--space-2);
+  }
+  .brand-moon {
+    width: 19px;
+    height: 19px;
+    box-shadow: -5px 3px 0 0 var(--ink);
+  }
+  .header-actions {
+    gap: 0;
+  }
+  .toolbar-divider {
+    margin: 0 var(--space-1);
+  }
+  .reading-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-8);
+  }
+  .poem-page {
+    max-width: 540px;
+  }
+  .chapter-mark,
+  .side-inscription {
+    display: none;
+  }
+  .poem-kicker {
+    margin-bottom: var(--space-5);
+    font-size: 11px;
+  }
+  .poem-heading h1 {
+    font-size: 29px;
+  }
+  .poet {
+    font-size: 12px;
+  }
+  .poem-lines {
+    margin-top: var(--space-6);
+    line-height: 1.98;
+  }
+  .poem-afterword {
+    margin-top: var(--space-4);
+    font-size: 11px;
+  }
+  .together-button {
+    margin-top: var(--space-4);
+    width: 278px;
+  }
+  .moon-disc {
+    width: 140px;
+    top: 18%;
+    right: -52px;
+    opacity: 0.28;
+  }
+  .moon-halo {
+    width: 600px;
+    top: 0;
+    right: -340px;
+  }
+  .mountains {
+    width: 190%;
+    max-width: none;
+    right: -22%;
+    height: 55vh;
+    opacity: 0.8;
+  }
+  .horizon-line {
+    display: none;
+  }
+  .dock-inner {
+    min-height: 80px;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  .dock-caption {
+    display: none;
+  }
+  .page-navigation {
+    gap: var(--space-2);
+  }
+  .page-count {
+    gap: var(--space-2);
+    padding: 0 var(--space-3);
+  }
+  .surprise-button {
+    padding-right: 0;
+  }
+  .sheet {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - max(24px, env(safe-area-inset-top, 0px)));
+    margin: auto 0 0;
+    border-radius: 24px 24px 0 0;
+    border-bottom: 0;
+  }
+  .sheet-header {
+    padding: var(--space-6) max(var(--space-6), env(safe-area-inset-right, 0px))
+      var(--space-5) max(var(--space-6), env(safe-area-inset-left, 0px));
+  }
+  .sheet-header h2 {
+    font-size: 24px;
+  }
+  .sheet-content {
+    padding: var(--space-5) max(var(--space-6), env(safe-area-inset-right, 0px))
+      calc(var(--space-8) + env(safe-area-inset-bottom, 0px))
+      max(var(--space-6), env(safe-area-inset-left, 0px));
+  }
+  .collection-meta span:nth-child(2) {
+    display: none;
+  }
+  .filter-list {
+    gap: var(--space-1);
+  }
+  .filter-list button {
+    padding-inline: var(--space-3);
+  }
+  .poem-list-item {
+    gap: var(--space-3);
+    padding-inline: 0;
+  }
+  .list-poem-title {
+    font-size: 18px;
+  }
+  .list-poem-preview {
+    font-size: 11px;
+  }
+  .list-number {
+    min-width: 16px;
+  }
+  .list-poet {
+    max-width: 60px;
+    text-align: right;
+    line-height: 1.5;
+  }
+  .word-notes {
+    padding: var(--space-4);
+  }
+  .bedtime-note {
+    padding: var(--space-4);
+  }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.09em;
+  }
+  .long-poem {
+    padding-top: var(--space-5);
+  }
+}
+@media (max-width: 380px) {
+  :root {
+    --page-gutter: 20px;
+  }
+  .brand {
+    font-size: 26px;
+  }
+  .brand-moon {
+    display: none;
+  }
+  .header-actions .icon-button {
+    min-width: 40px;
+    padding: 10px;
+  }
+  .library-button {
+    padding-inline: var(--space-2);
+  }
+  .library-button span {
+    display: none;
+  }
+  .toolbar-divider {
+    margin: 0 2px;
+  }
+  .poem-heading h1 {
+    font-size: 26px;
+  }
+  .poem-lines {
+    letter-spacing: 0.035em;
+  }
+  .page-navigation {
+    gap: var(--space-1);
+  }
+  .page-count {
+    padding-inline: var(--space-2);
+  }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  :root {
+    --header-height: calc(64px + env(safe-area-inset-top, 0px));
+    --dock-height: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+  .dock-inner {
+    min-height: 64px;
+  }
+  .reading-main {
+    padding-top: var(--space-4);
+  }
+  .sheet {
+    max-height: calc(100dvh - 16px);
+  }
+  .sheet-header {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-3);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root *,
+  :root *::before,
+  :root *::after {
+    animation-duration: 0s;
+    transition-duration: 0s;
+    scroll-behavior: auto;
+  }
+  :root .sheet[open] {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .landscape {
+    display: none;
+  }
+  button {
+    border: 1px solid ButtonText;
+  }
+}

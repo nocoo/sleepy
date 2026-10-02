@@ -1,0 +1,37 @@
+{
+  "name": "sleepy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A quiet Chinese poetry reader for little dreamers.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "bun@1.4.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "build": "vite build",
+    "preview": "wrangler dev --ip 127.0.0.1 --port 4173",
+    "test:e2e": "playwright test",
+    "check": "bun run typecheck && bun run lint && bun run build",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "lucide-preact": "1.48.0",
+    "preact": "10.29.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@biomejs/biome": "2.5.14",
+    "@playwright/test": "1.63.0",
+    "@preact/preset-vite": "2.10.6",
+    "typescript": "7.0.2",
+    "vite": "8.3.1",
+    "vite-plugin-pwa": "1.3.0",
+    "wrangler": "4.139.0"
+  }
+}
