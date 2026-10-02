@@ -699,6 +699,17 @@ button:active {
   overflow: auto;
   overscroll-behavior: contain;
 }
+.dialog-feedback {
+  flex-shrink: 0;
+  padding: var(--space-4) var(--space-6)
+    max(var(--space-4), env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  background: var(--accent-soft);
+  color: var(--ink);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.7;
+}
 .library-sheet {
   width: min(700px, calc(100vw - 48px));
 }

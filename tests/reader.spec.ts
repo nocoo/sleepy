@@ -263,3 +263,38 @@ test("light, dark, and library views meet automated accessibility checks", async
     expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
   }
 });
+
+for (const outcome of ["success", "denied"] as const) {
+  test(`copy feedback stays visible inside the dialog when clipboard access is ${outcome}`, async ({
+    page,
+  }, testInfo) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.addInitScript((mode) => {
+      Object.defineProperty(navigator, "clipboard", {
+        configurable: true,
+        value: {
+          writeText: async (text: string) => {
+            if (mode === "denied")
+              throw new DOMException("Clipboard access denied", "NotAllowedError");
+            Reflect.set(window, "sleepyCopiedText", text);
+          },
+        },
+      });
+    }, outcome);
+    await openReader(page);
+    await page.getByRole("button", { name: "和孩子一起读", exact: false }).click();
+    await page.getByRole("button", { name: "复制晚安话" }).click();
+    const feedback = page.getByRole("dialog").getByRole("status");
+    await expect(feedback).toHaveText(
+      outcome === "success" ? "晚安话已复制" : "未能复制，可以长按文字选择",
+    );
+    await expect(feedback).toBeInViewport();
+    await expect(feedback).not.toHaveClass(/sr-only/);
+    if (outcome === "success") {
+      expect(await page.evaluate(() => Reflect.get(window, "sleepyCopiedText"))).toBe(
+        await page.locator(".bedtime-note > p").innerText(),
+      );
+    }
+    await page.screenshot({ path: testInfo.outputPath(`copy-${outcome}-feedback.png`) });
+  });
+}

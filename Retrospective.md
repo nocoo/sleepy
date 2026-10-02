@@ -52,3 +52,11 @@ in the first tab. The app now uses the library's `onNeedReload` callback to relo
 only a window that requested it. A window with an already activated update can
 refresh later through About. Two-window Chromium and WebKit checks assert that
 quiet mode, the current document, and scroll position survive another tab's update.
+
+## 2026-10-02 — Put modal feedback in the top layer
+
+Independent review found that the application's visible toast was behind a native
+modal dialog. The dialog's hidden live region announced clipboard results but gave
+sighted readers no visible confirmation or failure guidance. Dialogs now render
+their own visible status footer in the top layer. Browser tests exercise both
+clipboard success and permission denial and assert that feedback is in the viewport.

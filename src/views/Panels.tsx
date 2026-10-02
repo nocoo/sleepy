@@ -24,6 +24,7 @@ export function Panels({ reader, pwa }: { reader: Reader; pwa: Pwa }) {
         eyebrow="THE LITTLE ANTHOLOGY / 小小诗集"
         onClose={close}
         className="library-sheet"
+        notice={reader.notice}
       >
         <label className="search-box">
           <Search size={19} />
@@ -109,6 +110,7 @@ export function Panels({ reader, pwa }: { reader: Reader; pwa: Pwa }) {
       <Dialog
         title="陪你，把这首诗读慢"
         eyebrow="A LITTLE TIME TOGETHER / 一起读"
+        notice={reader.notice}
         onClose={close}
       >
         <div className="together-poem">
@@ -172,9 +174,6 @@ export function Panels({ reader, pwa }: { reader: Reader; pwa: Pwa }) {
         <p className="small-print">
           用你熟悉的声音就好。不用背完，不必讲懂；孩子困了，就把诗留到明天。
         </p>
-        <span className="sr-only" role="status">
-          {reader.notice}
-        </span>
         <details className="source-details">
           <summary>诗文出处与版本</summary>
           <p>
@@ -202,6 +201,7 @@ export function Panels({ reader, pwa }: { reader: Reader; pwa: Pwa }) {
       <Dialog
         title="读得舒服一点"
         eyebrow="MAKE YOURSELF AT HOME / 阅读设置"
+        notice={reader.notice}
         onClose={close}
       >
         <fieldset className="setting-group">
@@ -270,7 +270,12 @@ export function Panels({ reader, pwa }: { reader: Reader; pwa: Pwa }) {
   }
   if (panel === "about")
     return (
-      <Dialog title="留一点时间，给一首诗" eyebrow="SLEEPY / 诗意入眠" onClose={close}>
+      <Dialog
+        title="留一点时间，给一首诗"
+        eyebrow="SLEEPY / 诗意入眠"
+        onClose={close}
+        notice={reader.notice}
+      >
         <p className="about-intro">给孩子读一首诗，也让忙了一天的自己，慢慢安静下来。</p>
         <section className="reading-note">
           <h3>把诗集放在手边</h3>

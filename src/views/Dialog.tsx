@@ -8,6 +8,7 @@ interface DialogProps {
   onClose: () => void;
   children: ComponentChildren;
   className?: string;
+  notice?: string;
 }
 
 export function Dialog({
@@ -16,6 +17,7 @@ export function Dialog({
   onClose,
   children,
   className = "",
+  notice = "",
 }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   useLayoutEffect(() => {
@@ -98,6 +100,11 @@ export function Dialog({
         </button>
       </div>
       <div className="sheet-content">{children}</div>
+      {notice && (
+        <div className="dialog-feedback" role="status">
+          {notice}
+        </div>
+      )}
     </dialog>
   );
 }
