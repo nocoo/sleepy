@@ -103,7 +103,6 @@ export function usePwa() {
 
   return {
     ready,
-    failed,
     offline,
     installed,
     canInstall: Boolean(installPrompt),
