@@ -49,9 +49,9 @@ Safari's browser UI. Add-to-Home-Screen is the supported standalone experience.
 Ship ancient public-domain originals. Mark every excerpt and provide provenance
 and editorial-variant notes. Parent prompts and explanations are written for this
 project, not copied from modern editions. Keep poetry and font licensing distinct
-from the MIT software license. Do not include full Mao Zedong poems without verified
-rights for all served regions. The initial unrestricted worldwide site may ship
-only public-domain classics, as authorized by the owner.
+from the MIT software license. The initial collection contains 30 classical works;
+modern poetry is outside this shipped collection. No further legal research is
+part of this release's remaining work.
 
 ## Release gates
 
