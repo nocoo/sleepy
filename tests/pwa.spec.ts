@@ -14,6 +14,7 @@ test("serves an installable manifest, local icons, and explicit cache policy", a
   const response = await page.goto("/");
   expect(response?.status()).toBe(200);
   expect(response?.headers()["cache-control"]).toContain("no-cache");
+  expect(response?.headers()["cache-control"]).toContain("no-transform");
   expect(response?.headers()["content-security-policy"]).toContain("script-src 'self'");
   expect(response?.headers()["x-content-type-options"]).toBe("nosniff");
   const manifestResponse = await request.get("/manifest.webmanifest");

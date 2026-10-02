@@ -69,3 +69,12 @@ without the change event needed by some screen readers. The status node now stay
 mounted, with an empty state hidden only visually, and uses explicit polite/atomic
 semantics. Regression checks assert that the empty live region exists first and
 the same DOM node receives the successful or denied clipboard result.
+
+## 2026-10-02 — Verify browser-specific edge transformations
+
+The first production checks found Cloudflare automatically injecting its analytics
+beacon into browser HTML responses, although a plain HTTP fetch matched the build.
+The CSP blocked the beacon from executing. Following Cloudflare's documented
+opt-out, HTML responses now use `public, no-cache, no-transform`. This changes only
+Sleepy's asset headers; no shared zone analytics configuration was changed. Checks
+cover the header and production browser response bytes, as well as external requests.

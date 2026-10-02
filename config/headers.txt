@@ -7,6 +7,14 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
 
+/
+  ! Cache-Control
+  Cache-Control: public, no-cache, no-transform
+
+/index.html
+  ! Cache-Control
+  Cache-Control: public, no-cache, no-transform
+
 /release.json
   ! Cache-Control
   Cache-Control: no-store
