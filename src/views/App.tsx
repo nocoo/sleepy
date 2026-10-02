@@ -12,14 +12,22 @@ import {
   Sun,
   Type,
 } from "lucide-preact";
+import type { TargetedMouseEvent } from "preact";
 import { poems, themeNames } from "../model/poems";
-import { useReader } from "../viewmodel/useReader";
+import { usePwa } from "../viewmodel/usePwa";
+import { type Panel, useReader } from "../viewmodel/useReader";
 import { Panels } from "./Panels";
 import { Scene } from "./Scene";
 
 export function App() {
   const reader = useReader();
+  const pwa = usePwa();
   const { poem } = reader;
+  const openPanel =
+    (panel: Exclude<Panel, null>) => (event: TargetedMouseEvent<HTMLButtonElement>) => {
+      event.currentTarget.focus({ preventScroll: true });
+      reader.setPanel(panel);
+    };
   return (
     <div
       className={`app ${reader.quiet ? "is-quiet" : ""} text-${reader.preferences.textSize}`}
@@ -34,7 +42,7 @@ export function App() {
             type="button"
             className="brand"
             aria-label="关于 sleepy"
-            onClick={() => reader.setPanel("about")}
+            onClick={openPanel("about")}
           >
             <span className="brand-moon" />
             <span>
@@ -46,7 +54,8 @@ export function App() {
             <button
               type="button"
               className="text-button library-button"
-              onClick={() => reader.setPanel("library")}
+              aria-label="诗集"
+              onClick={openPanel("library")}
             >
               <BookOpen size={18} />
               <span>诗集</span>
@@ -57,7 +66,7 @@ export function App() {
               className="icon-button"
               title="阅读设置"
               aria-label="阅读设置"
-              onClick={() => reader.setPanel("settings")}
+              onClick={openPanel("settings")}
             >
               <Type size={19} />
             </button>
@@ -76,7 +85,7 @@ export function App() {
               className="icon-button quiet-trigger"
               title="沉浸阅读"
               aria-label="沉浸阅读"
-              onClick={() => reader.setQuiet(true)}
+              onClick={reader.enterQuiet}
             >
               <Maximize2 size={18} />
             </button>
@@ -87,6 +96,7 @@ export function App() {
         <button
           type="button"
           className="quiet-exit icon-button"
+          ref={reader.quietExitRef}
           aria-label="退出沉浸阅读"
           title="退出沉浸阅读 · Esc"
           onClick={reader.exitQuiet}
@@ -146,7 +156,7 @@ export function App() {
             <button
               type="button"
               className="together-button"
-              onClick={() => reader.setPanel("together")}
+              onClick={openPanel("together")}
             >
               <span className="together-icon">
                 <Sparkles size={17} />
@@ -177,13 +187,15 @@ export function App() {
       {!reader.quiet && (
         <footer className="reading-dock">
           <div className="dock-inner">
-            <button
-              type="button"
-              className="dock-caption"
-              onClick={() => reader.setPanel("about")}
-            >
+            <button type="button" className="dock-caption" onClick={openPanel("about")}>
               <span className="status-dot" />
-              <span>留一盏月光，陪你入梦。</span>
+              <span>
+                {pwa.ready
+                  ? pwa.offline
+                    ? "离线也有诗，安心慢慢读。"
+                    : "诗集已备好，离线也能读。"
+                  : "留一盏月光，陪你入梦。"}
+              </span>
             </button>
             <nav className="page-navigation" aria-label="翻阅诗集">
               <button
@@ -198,10 +210,10 @@ export function App() {
                 type="button"
                 className="page-count"
                 aria-label={`打开诗集，当前第 ${reader.index + 1} 首，共 ${poems.length} 首`}
-                onClick={() => reader.setPanel("library")}
+                onClick={openPanel("library")}
               >
                 <span>{String(reader.index + 1).padStart(2, "0")}</span>
-                <i>/</i>
+                <i aria-hidden="true">/</i>
                 {String(poems.length).padStart(2, "0")}
               </button>
               <button
@@ -245,7 +257,27 @@ export function App() {
           </button>
         </div>
       )}
-      <Panels reader={reader} />
+      <Panels reader={reader} pwa={pwa} />
+      {pwa.needRefresh && !pwa.updateDismissed && (
+        <aside className="update-prompt" aria-label="诗集更新">
+          <span>
+            {pwa.updateError
+              ? "这次更新没有成功，请稍后再试。"
+              : "诗集有更新，读完再翻开。"}
+          </span>
+          <button type="button" className="text-button" onClick={pwa.dismissUpdate}>
+            稍后
+          </button>
+          <button
+            type="button"
+            className="update-button"
+            disabled={pwa.updating}
+            onClick={() => void pwa.update()}
+          >
+            {pwa.updating ? "正在更新" : "刷新诗集"}
+          </button>
+        </aside>
+      )}
       <div
         className={`toast ${reader.notice ? "is-visible" : ""}`}
         role="status"

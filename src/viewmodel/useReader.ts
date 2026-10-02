@@ -1,7 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import {
+  type StateUpdater,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "preact/hooks";
 import { poems, type Theme } from "../model/poems";
 import {
   defaultPoemId,
+  type Preferences,
   poemFromHash,
   readPreferences,
   writePreferences,
@@ -10,7 +18,10 @@ import {
 export type Panel = "library" | "together" | "settings" | "about" | null;
 
 export function useReader() {
-  const [preferences, setPreferences] = useState(readPreferences);
+  const [preferences, setPreferenceState] = useState(() => {
+    const saved = readPreferences();
+    return { ...saved, lastPoem: poemFromHash() || saved.lastPoem };
+  });
   const [poemId, setPoemId] = useState(
     () => poemFromHash() || preferences.lastPoem || defaultPoemId,
   );
@@ -26,6 +37,8 @@ export function useReader() {
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const quietTriggerRef = useRef<HTMLButtonElement>(null);
+  const quietExitRef = useRef<HTMLButtonElement>(null);
+  const preferencesRef = useRef(preferences);
   const index = Math.max(
     0,
     poems.findIndex((poem) => poem.id === poemId),
@@ -36,21 +49,31 @@ export function useReader() {
     preferences.theme === "dark" || (preferences.theme === "system" && systemDark);
   const isFavorite = preferences.favorites.includes(poemId);
 
+  const setPreferences = useCallback((update: StateUpdater<Preferences>) => {
+    const next = typeof update === "function" ? update(preferencesRef.current) : update;
+    preferencesRef.current = next;
+    setStorageAvailable(writePreferences(next));
+    setPreferenceState(next);
+  }, []);
+
   const announce = useCallback((message: string) => {
     clearTimeout(noticeTimer.current);
     setNotice(message);
     noticeTimer.current = setTimeout(() => setNotice(""), 3200);
   }, []);
 
-  const choosePoem = useCallback((id: string) => {
-    if (!poems.some((item) => item.id === id)) return;
-    setPoemId(id);
-    setPanel(null);
-    history.replaceState(null, "", `#${id}`);
-    setPreferences((current) => ({ ...current, lastPoem: id }));
-    window.scrollTo({ top: 0, behavior: "instant" });
-    requestAnimationFrame(() => headingRef.current?.focus({ preventScroll: true }));
-  }, []);
+  const choosePoem = useCallback(
+    (id: string) => {
+      if (!poems.some((item) => item.id === id)) return;
+      setPoemId(id);
+      setPanel(null);
+      history.replaceState(null, "", `#${id}`);
+      setPreferences((current) => ({ ...current, lastPoem: id }));
+      window.scrollTo({ top: 0, behavior: "instant" });
+      requestAnimationFrame(() => headingRef.current?.focus({ preventScroll: true }));
+    },
+    [setPreferences],
+  );
 
   const turnPage = useCallback(
     (direction: number) => {
@@ -84,6 +107,11 @@ export function useReader() {
     requestAnimationFrame(() => quietTriggerRef.current?.focus({ preventScroll: true }));
   }, []);
 
+  const enterQuiet = () => {
+    setQuiet(true);
+    requestAnimationFrame(() => quietExitRef.current?.focus({ preventScroll: true }));
+  };
+
   useEffect(() => {
     const media = matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => setSystemDark(media.matches);
@@ -91,16 +119,16 @@ export function useReader() {
     return () => media.removeEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = isDark ? "dark" : "light";
     document
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", isDark ? "#152927" : "#f4f1ea");
   }, [isDark]);
 
-  useEffect(() => {
-    setStorageAvailable(writePreferences(preferences));
-  }, [preferences]);
+  useLayoutEffect(() => {
+    setStorageAvailable(writePreferences(preferencesRef.current));
+  }, []);
 
   useEffect(() => {
     const onHash = () => {
@@ -115,8 +143,13 @@ export function useReader() {
     document.title = `${poem.title} · sleepy`;
   }, [poem.title]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const onKey = (event: KeyboardEvent) => {
+      if (!panel && quiet && event.key === "Escape") {
+        event.preventDefault();
+        exitQuiet();
+        return;
+      }
       const target = event.target;
       if (
         panel ||
@@ -136,7 +169,6 @@ export function useReader() {
         event.preventDefault();
         turnPage(-1);
       }
-      if (event.key === "Escape" && quiet) exitQuiet();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -169,7 +201,7 @@ export function useReader() {
     panel,
     setPanel,
     quiet,
-    setQuiet,
+    enterQuiet,
     exitQuiet,
     query,
     setQuery,
@@ -186,6 +218,7 @@ export function useReader() {
     storageAvailable,
     headingRef,
     quietTriggerRef,
+    quietExitRef,
   };
 }
 

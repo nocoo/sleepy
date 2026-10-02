@@ -1,6 +1,6 @@
 import { X } from "lucide-preact";
 import type { ComponentChildren } from "preact";
-import { useEffect, useRef } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
 
 interface DialogProps {
   title: string;
@@ -18,12 +18,11 @@ export function Dialog({
   className = "",
 }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialog = ref.current;
     const previous = document.activeElement;
     document.body.classList.add("dialog-open");
     dialog?.showModal();
-    dialog?.querySelector<HTMLElement>("[data-initial-focus]")?.focus();
     return () => {
       dialog?.close();
       document.body.classList.remove("dialog-open");
@@ -31,6 +30,15 @@ export function Dialog({
         previous.focus({ preventScroll: true });
     };
   }, []);
+
+  useLayoutEffect(() => {
+    if (!title) return;
+    const dialog = ref.current;
+    const first =
+      dialog?.querySelector<HTMLElement>("[data-initial-focus]") ||
+      dialog?.querySelector<HTMLElement>("button");
+    first?.focus();
+  }, [title]);
 
   return (
     <dialog
@@ -42,6 +50,25 @@ export function Dialog({
         if (event.key === "Escape") {
           event.preventDefault();
           onClose();
+        }
+        if (event.key === "Tab") {
+          const controls = [
+            ...event.currentTarget.querySelectorAll<HTMLElement>(
+              'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), summary, [tabindex]:not([tabindex="-1"])',
+            ),
+          ].filter((element) => element.getClientRects().length > 0);
+          if (controls.length) {
+            event.preventDefault();
+            const focused = document.activeElement;
+            const active =
+              focused instanceof HTMLElement ? controls.indexOf(focused) : -1;
+            const next = event.shiftKey
+              ? active <= 0
+                ? controls.length - 1
+                : active - 1
+              : (active + 1) % controls.length;
+            controls[next]?.focus();
+          }
         }
       }}
       onClick={(event) => {

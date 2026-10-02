@@ -2,7 +2,7 @@
   font-family: "Sleepy Serif";
   src: url("/fonts/sleepy-serif.woff2") format("woff2");
   font-style: normal;
-  font-weight: 400 600;
+  font-weight: 400;
   font-display: swap;
 }
 
@@ -11,8 +11,8 @@
   --paper: #f4f1ea;
   --surface: #faf8f3;
   --ink: #293f35;
-  --secondary: #667267;
-  --muted: #70796f;
+  --secondary: #5d6b60;
+  --muted: #606d62;
   --accent: #4d6955;
   --accent-soft: #e6eadf;
   --line: #dddcd2;
@@ -679,7 +679,7 @@ button:active {
   border-bottom: 1px solid var(--line);
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.14em;
   color: var(--muted);
 }
@@ -1024,6 +1024,70 @@ button:active {
   margin-bottom: var(--space-8);
   text-wrap: balance;
 }
+.source-details {
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+  color: var(--secondary);
+  font-size: 12px;
+  line-height: 1.9;
+}
+.source-details summary {
+  min-height: 44px;
+  padding-block: var(--space-3);
+  cursor: pointer;
+}
+.source-details summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.offline-status {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--accent-soft);
+}
+.install-button,
+.update-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  min-height: 44px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: var(--accent-soft);
+  font-size: 13px;
+}
+.install-button {
+  margin-bottom: var(--space-4);
+}
+.version-note {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: var(--space-2);
+}
+.update-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  position: fixed;
+  bottom: calc(var(--dock-height) + var(--space-3));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  width: max-content;
+  max-width: calc(100% - 40px);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  font-size: 13px;
+}
 .toast {
   position: fixed;
   z-index: 30;
@@ -1255,7 +1319,7 @@ button:active {
     padding: var(--space-4);
   }
   .eyebrow {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.09em;
   }
   .long-poem {
@@ -1273,10 +1337,11 @@ button:active {
     display: none;
   }
   .header-actions .icon-button {
-    min-width: 40px;
+    min-width: 44px;
     padding: 10px;
   }
   .library-button {
+    min-width: 44px;
     padding-inline: var(--space-2);
   }
   .library-button span {

@@ -10,10 +10,11 @@ import {
 } from "lucide-preact";
 import { poems, themes } from "../model/poems";
 import type { ColorPreference, TextSize } from "../model/preferences";
+import type { Pwa } from "../viewmodel/usePwa";
 import type { Reader } from "../viewmodel/useReader";
 import { Dialog } from "./Dialog";
 
-export function Panels({ reader }: { reader: Reader }) {
+export function Panels({ reader, pwa }: { reader: Reader; pwa: Pwa }) {
   const { panel, setPanel, poem, preferences, setPreferences } = reader;
   const close = () => setPanel(null);
   if (panel === "library")
@@ -171,6 +172,19 @@ export function Panels({ reader }: { reader: Reader }) {
         <p className="small-print">
           用你熟悉的声音就好。不用背完，不必讲懂；孩子困了，就把诗留到明天。
         </p>
+        <span className="sr-only" role="status">
+          {reader.notice}
+        </span>
+        <details className="source-details">
+          <summary>诗文出处与版本</summary>
+          <p>
+            {poem.excerpt || "完整诗文"}。
+            {poem.sourceNote || "以公版古典原作为底本，采用通行简体字与现代标点。"}
+          </p>
+          <a className="text-link" href={poem.source} target="_blank" rel="noreferrer">
+            查看原文出处 <ArrowUpRight size={14} />
+          </a>
+        </details>
       </Dialog>
     );
   if (panel === "settings") {
@@ -226,7 +240,9 @@ export function Panels({ reader }: { reader: Reader }) {
                   setPreferences((current) => ({ ...current, textSize: size.id }))
                 }
               >
-                <span className={`size-preview ${size.id}`}>诗</span>
+                <span className={`size-preview ${size.id}`} aria-hidden="true">
+                  诗
+                </span>
                 {size.label}
               </button>
             ))}
@@ -258,6 +274,23 @@ export function Panels({ reader }: { reader: Reader }) {
         <p className="about-intro">给孩子读一首诗，也让忙了一天的自己，慢慢安静下来。</p>
         <section className="reading-note">
           <h3>把诗集放在手边</h3>
+          <p className="offline-status" role="status">
+            {pwa.status}
+          </p>
+          {pwa.canInstall && !pwa.installed && (
+            <button
+              type="button"
+              className="install-button"
+              onClick={() =>
+                void pwa
+                  .install()
+                  .catch(() => reader.announce("未能打开安装提示，请使用浏览器菜单"))
+              }
+            >
+              把 sleepy 放到桌面 <ArrowUpRight size={16} />
+            </button>
+          )}
+          {pwa.installed && <p>已在主屏幕模式中打开。</p>}
           <p>
             iPhone / iPad：在 Safari
             中打开本站，点“分享”，选择“添加到主屏幕”，再从桌面图标打开。
@@ -269,6 +302,19 @@ export function Panels({ reader }: { reader: Reader }) {
             主屏幕模式可提供更完整的阅读空间。普通 Safari
             页面的地址栏与系统状态栏仍由系统管理。
           </small>
+          <small>
+            首次保存完成后可离线阅读。浏览器清理网站数据或回收存储空间后，需要联网重新保存。
+          </small>
+          {pwa.needRefresh && (
+            <button
+              type="button"
+              className="text-link"
+              disabled={pwa.updating}
+              onClick={() => void pwa.update()}
+            >
+              诗集有更新 · 刷新诗集
+            </button>
+          )}
         </section>
         <section className="reading-note">
           <h3>关于这些诗</h3>
@@ -277,8 +323,7 @@ export function Panels({ reader }: { reader: Reader }) {
             首古典诗词，以公版原作为底本，转换为简体。节选、异文和出处逐首注明；陪读与晚安话为本站原创。
           </p>
           <p>
-            软件代码采用 MIT 许可，古诗原文不因此被重新授权为
-            MIT。本站未收录传播许可尚未核实的现代诗词全文。
+            sleepy 的代码和原创陪读内容采用 MIT 许可。古典诗文与第三方字体不据此重新授权。
           </p>
           <small>字体源自 Noto Serif CJK，依 SIL Open Font License 1.1 分发。</small>
         </section>
@@ -296,6 +341,9 @@ export function Panels({ reader }: { reader: Reader }) {
         >
           在 GitHub 看看 sleepy <ArrowUpRight size={14} />
         </a>
+        <p className="version-note">
+          v{__APP_VERSION__} · {__BUILD_SHA__.slice(0, 7)}
+        </p>
       </Dialog>
     );
   return null;
