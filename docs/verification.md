@@ -19,7 +19,7 @@ no application behavior depends on unverified newer flags.
 
 ## Browser checks
 
-The pre-release suite passed **50 checks**, with **one explicit platform skip**.
+The pre-release suite passed **59 checks**, with **one explicit platform skip**.
 It uses real Chromium 153 and WebKit 26.6 engines in isolated browser contexts:
 
 | Project | Viewport | Mode |
@@ -31,12 +31,15 @@ It uses real Chromium 153 and WebKit 26.6 engines in isolated browser contexts:
 Checks cover both themes and system preference, all 30 poems at 320 px with larger
 type, long-poem scrolling, favorites and immediate reload, search, keyboard
 navigation, modal focus and restoration, reduced motion, unavailable storage,
-source/excerpt labels, and Axe checks on light/dark/library views.
+source/excerpt labels, visible clipboard success/denial feedback, and Axe checks
+on light/dark/library views.
 
 PWA checks cover manifest fields, icon dimensions, local font, response headers,
 offline reload and navigation, unknown-resource 404 responses before and after
 service-worker control, and a real waiting-worker update that requires an explicit
-refresh while preserving the poem and favorite.
+refresh while preserving the poem and favorite. Two-window tests also prove that
+a reader who postponed an update retains their document, quiet mode, and scroll
+position when the other window updates, until they explicitly choose to refresh.
 
 Chromium receives **synthetic** `env(safe-area-inset-*)` values through CDP: portrait
 47 px top / 34 px bottom, landscape 47 px left/right / 21 px bottom. Bounds and
