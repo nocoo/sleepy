@@ -100,11 +100,14 @@ export function Dialog({
         </button>
       </div>
       <div className="sheet-content">{children}</div>
-      {notice && (
-        <div className="dialog-feedback" role="status">
-          {notice}
-        </div>
-      )}
+      <div
+        className={notice ? "dialog-feedback" : "sr-only"}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {notice}
+      </div>
     </dialog>
   );
 }

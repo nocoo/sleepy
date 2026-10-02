@@ -283,8 +283,17 @@ for (const outcome of ["success", "denied"] as const) {
     }, outcome);
     await openReader(page);
     await page.getByRole("button", { name: "和孩子一起读", exact: false }).click();
-    await page.getByRole("button", { name: "复制晚安话" }).click();
     const feedback = page.getByRole("dialog").getByRole("status");
+    await expect(feedback).toHaveText("");
+    await expect(feedback).toHaveAttribute("aria-live", "polite");
+    await expect(feedback).toHaveAttribute("aria-atomic", "true");
+    await feedback.evaluate((element) =>
+      Reflect.set(element, "sleepyExistingStatus", true),
+    );
+    await page.getByRole("button", { name: "复制晚安话" }).click();
+    expect(
+      await feedback.evaluate((element) => Reflect.get(element, "sleepyExistingStatus")),
+    ).toBe(true);
     await expect(feedback).toHaveText(
       outcome === "success" ? "晚安话已复制" : "未能复制，可以长按文字选择",
     );

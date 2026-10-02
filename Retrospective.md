@@ -60,3 +60,12 @@ modal dialog. The dialog's hidden live region announced clipboard results but ga
 sighted readers no visible confirmation or failure guidance. Dialogs now render
 their own visible status footer in the top layer. Browser tests exercise both
 clipboard success and permission denial and assert that feedback is in the viewport.
+
+## 2026-10-02 — Mount a live region before changing its text
+
+The visible dialog feedback fix initially created its status node only when there
+was a message. Independent native accessibility-event inspection showed creation
+without the change event needed by some screen readers. The status node now stays
+mounted, with an empty state hidden only visually, and uses explicit polite/atomic
+semantics. Regression checks assert that the empty live region exists first and
+the same DOM node receives the successful or denied clipboard result.
