@@ -16,12 +16,12 @@ export function Scene() {
         <title>远山</title>
         <defs>
           <linearGradient id="distant-ink" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="currentColor" stopOpacity="0.12" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+            <stop offset="0%" stop-color="currentColor" stop-opacity="0.12" />
+            <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
           </linearGradient>
           <linearGradient id="near-ink" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="currentColor" stopOpacity="0.10" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0.015" />
+            <stop offset="0%" stop-color="currentColor" stop-opacity="0.10" />
+            <stop offset="100%" stop-color="currentColor" stop-opacity="0.015" />
           </linearGradient>
         </defs>
         <path
@@ -41,7 +41,7 @@ export function Scene() {
           d="M899 512C1081 488 1274 484 1469 457"
           fill="none"
           stroke="currentColor"
-          strokeOpacity="0.07"
+          stroke-opacity="0.07"
         />
       </svg>
       <div className="horizon-line" />
