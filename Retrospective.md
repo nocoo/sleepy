@@ -43,3 +43,12 @@ A broad `/assets/*` immutable header also applied to 404 responses. The build no
 emits immutable headers only for the exact hashed assets it produced, with a
 revalidation default for all other paths. Tests check both the 404 status and its
 cache header, rather than only checking that the application shell is absent.
+
+## 2026-10-02 — Keep update consent per window
+
+Independent review reproduced a cross-window interruption: one tab postponed an
+update, but another tab activating it still triggered the library's default reload
+in the first tab. The app now uses the library's `onNeedReload` callback to reload
+only a window that requested it. A window with an already activated update can
+refresh later through About. Two-window Chromium and WebKit checks assert that
+quiet mode, the current document, and scroll position survive another tab's update.

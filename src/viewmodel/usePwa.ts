@@ -1,5 +1,5 @@
 import { useRegisterSW } from "virtual:pwa-register/preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 interface InstallPrompt extends Event {
   prompt: () => Promise<void>;
@@ -12,6 +12,8 @@ export function usePwa() {
   const [updating, setUpdating] = useState(false);
   const [updateError, setUpdateError] = useState(false);
   const [updateDismissed, setUpdateDismissed] = useState(false);
+  const reloadRequested = useRef(false);
+  const activatedUpdate = useRef(false);
   const [offline, setOffline] = useState(!navigator.onLine);
   const [installPrompt, setInstallPrompt] = useState<InstallPrompt | null>(null);
   const [installed, setInstalled] = useState(
@@ -21,10 +23,15 @@ export function usePwa() {
   );
   const supported = "serviceWorker" in navigator;
   const {
-    needRefresh: [needRefresh],
+    needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     immediate: true,
+    onNeedReload: () => {
+      activatedUpdate.current = true;
+      if (reloadRequested.current) window.location.reload();
+      else setNeedRefresh(true);
+    },
     onOfflineReady: () => {
       setReady(true);
       setFailed(false);
@@ -70,9 +77,12 @@ export function usePwa() {
   const update = async () => {
     setUpdating(true);
     setUpdateError(false);
+    reloadRequested.current = true;
     try {
-      await updateServiceWorker();
+      if (activatedUpdate.current) window.location.reload();
+      else await updateServiceWorker();
     } catch {
+      reloadRequested.current = false;
       setUpdateError(true);
     } finally {
       setUpdating(false);
