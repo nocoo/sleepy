@@ -166,9 +166,6 @@ p {
 .text-regular {
   --type-scale: 0.88;
 }
-.text-large {
-  --type-scale: 1;
-}
 .text-larger {
   --type-scale: 1.15;
 }
