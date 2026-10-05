@@ -21,6 +21,9 @@
       },
     },
   },
+  "overrides": {
+    "undici": "7.29.1",
+  },
   "packages": {
     "@apideck/better-ajv-errors": ["@apideck/better-ajv-errors@0.3.7", "", { "dependencies": { "jsonpointer": "^5.0.1", "leven": "^3.1.0" }, "peerDependencies": { "ajv": ">=8" } }, "sha1-iSOPaJ2BpkQTmkfg68LiNryh/yw="],
 
@@ -998,7 +1001,7 @@
 
     "unbox-primitive": ["unbox-primitive@1.1.0", "", { "dependencies": { "call-bound": "^1.0.3", "has-bigints": "^1.0.2", "has-symbols": "^1.1.0", "which-boxed-primitive": "^1.1.1" } }, "sha1-jZ0snt7qhGDH81AzqIhnlEk00eI="],
 
-    "undici": ["undici@7.29.0", "", {}, "sha1-rg9vYuBuBXqcu3srX94rt095G48="],
+    "undici": ["undici@7.29.1", "", {}, "sha1-d0HG/Is+GkjjAyODNkK/voQUQ60="],
 
     "undici-types": ["undici-types@8.9.0", "", {}, "sha1-4kDZfItdheU0fOc9JYZceQbB7J8="],
 
