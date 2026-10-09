@@ -10,6 +10,7 @@
 - Provide complete Chinese and English READMEs and preserve deployment guidance.
 - Update pinned development dependencies and remove redundant implementation paths.
 - Extend browser checks for brand assets, health responses, and tooltip interaction.
+- Keep all mobile header controls reachable across platform font metrics.
 
 ## v1.0.0 — 2026-10-02
 

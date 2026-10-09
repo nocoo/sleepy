@@ -107,3 +107,11 @@ asserting the asset dimensions; retain the same assertion in every browser.
 The preview script already sets `--port 4173`; appending `--port 4174` made
 Wrangler reject two values instead of overriding the port. Inspect the package
 script first and invoke the installed CLI directly when selecting another port.
+
+## 2026-10-09 - Budget mobile header width across platforms
+
+Linux WebKit CI exposed header overflow that macOS browser runs did not reproduce.
+The brand and five controls cannot reliably share a 320px row while preserving
+44px targets and page gutters. Give mobile tools their own compact row instead
+of relying on platform-specific flex shrinking, hiding controls, or clipping
+the document. Keep Linux CI as an independent release gate.

@@ -1365,6 +1365,27 @@ button:active {
     padding-top: var(--space-5);
   }
 }
+@media (max-width: 480px) {
+  :root {
+    --header-height: calc(112px + env(safe-area-inset-top, 0px));
+  }
+  .site-header {
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 0;
+  }
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .header-actions .icon-button {
+    flex: 0 0 44px;
+    padding: var(--space-2);
+  }
+  .toolbar-divider {
+    display: none;
+  }
+}
 @media (max-width: 380px) {
   :root {
     --page-gutter: 20px;
