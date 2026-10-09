@@ -18,3 +18,8 @@
 /release.json
   ! Cache-Control
   Cache-Control: no-store
+
+/api/live
+  ! Cache-Control
+  Cache-Control: no-store
+  Content-Type: application/json; charset=utf-8

@@ -1,0 +1,13 @@
+{
+  "study": "hexly.ai/artwork/logo-family/sleepy/2026-10-09-02",
+  "finishing": "04",
+  "model": "gpt-image-2.5-sunburst",
+  "rawApprovedByOwner": true,
+  "transparentSha256": "de60cc40aa0725df820cada77d5b4e0e99aef7ff7677c51abddd9d7e31f9e60b",
+  "roles": {
+    "logo.png": "Transparent canonical master; exact selected bytes",
+    "icon.png": "Square presentation for platform icons",
+    "icon-rounded.png": "Large README presentation"
+  },
+  "usage": "Small headers and favicons use transparent foregrounds with no background tile or additional mask."
+}

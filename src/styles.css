@@ -249,14 +249,11 @@ p {
   letter-spacing: -1.4px;
   min-height: 48px;
 }
-.brand-moon {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  box-shadow: -6px 3px 0 0 var(--ink);
-  transform: rotate(-14deg);
-  margin-left: 6px;
-  margin-right: 2px;
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 .brand-dot {
   color: var(--seal);
@@ -283,10 +280,37 @@ p {
   padding: var(--space-3);
   border-radius: 50%;
   color: var(--secondary);
+  cursor: pointer;
+  text-decoration: none;
   transition:
     color 160ms,
     background 160ms,
     transform 220ms var(--ease);
+}
+.header-actions .icon-button {
+  position: relative;
+}
+.header-actions svg {
+  pointer-events: none;
+}
+.header-tooltip {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  width: max-content;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--space-2);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0;
+  pointer-events: none;
+}
+.header-actions .icon-button:hover .header-tooltip,
+.header-actions .icon-button:focus-visible .header-tooltip {
+  opacity: 1;
 }
 .text-button {
   min-height: 44px;
@@ -320,9 +344,6 @@ p {
   }
   .text-link:hover {
     color: var(--ink);
-  }
-  .brand:hover .brand-moon {
-    transform: rotate(-28deg);
   }
 }
 button:active {
@@ -1185,10 +1206,9 @@ button:active {
     font-size: 29px;
     gap: var(--space-2);
   }
-  .brand-moon {
-    width: 19px;
-    height: 19px;
-    box-shadow: -5px 3px 0 0 var(--ink);
+  .brand-logo {
+    width: 24px;
+    height: 24px;
   }
   .header-actions {
     gap: 0;
@@ -1339,9 +1359,12 @@ button:active {
     --page-gutter: 20px;
   }
   .brand {
-    font-size: 26px;
+    font-size: 24px;
   }
-  .brand-moon {
+  .site-header {
+    gap: var(--space-2);
+  }
+  .brand-logo {
     display: none;
   }
   .header-actions .icon-button {

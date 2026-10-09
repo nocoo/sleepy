@@ -68,6 +68,16 @@ test("serves an installable manifest, local icons, and explicit cache policy", a
     version: packageInfo.version,
     revision: expect.stringMatching(/^[a-f0-9]{40}$/),
   });
+  const live = await request.get("/api/live");
+  expect(live.status()).toBe(200);
+  expect(live.headers()["content-type"]).toContain("application/json");
+  expect(live.headers()["cache-control"]).toContain("no-store");
+  expect(await live.json()).toMatchObject({
+    status: "ok",
+    name: "sleepy",
+    version: packageInfo.version,
+    revision: expect.stringMatching(/^[a-f0-9]{40}$/),
+  });
 });
 
 test("reopens the full poetry collection, font, and controls offline", async ({

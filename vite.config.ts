@@ -27,6 +27,11 @@ export default defineConfig({
           fileName: "release.json",
           source: JSON.stringify({ name: "sleepy", version, revision, dirty }),
         });
+        this.emitFile({
+          type: "asset",
+          fileName: "api/live",
+          source: JSON.stringify({ status: "ok", name: "sleepy", version, revision }),
+        });
         const headers = readFileSync(
           new URL("./config/headers.txt", import.meta.url),
           "utf8",
@@ -51,7 +56,7 @@ export default defineConfig({
     VitePWA({
       registerType: "prompt",
       injectRegister: false,
-      includeAssets: ["favicon.svg", "theme.js", "fonts/*"],
+      includeAssets: ["favicon.png", "theme.js", "fonts/*"],
       manifest: {
         id: "/",
         name: "sleepy · 诗意入眠",

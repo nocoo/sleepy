@@ -78,3 +78,11 @@ The CSP blocked the beacon from executing. Following Cloudflare's documented
 opt-out, HTML responses now use `public, no-cache, no-transform`. This changes only
 Sleepy's asset headers; no shared zone analytics configuration was changed. Checks
 cover the header and production browser response bytes, as well as external requests.
+
+## 2026-10-09 - Recheck the narrowest header after onboarding
+
+Adding a Hexly header action caused two pixels of horizontal overflow at 320px.
+The existing all-poems browser journey caught it in Chromium and WebKit. Keep
+44px action targets and reduce the narrow header's inter-group gap instead of
+clipping overflow or hiding the new action. Run the full narrow journey after
+adding any header control, not only the default mobile viewport.

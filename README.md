@@ -1,4 +1,5 @@
-<p align="center"><img src="public/favicon.svg" width="72" height="72" alt="sleepy moon" /></p>
+<p align="center"><img src="assets/brand/icon-rounded.png" width="240" alt="Sleepy logo" /></p>
+
 <h1 align="center">sleepy</h1>
 <p align="center">One poem. A little quiet.</p>
 <p align="center"><a href="https://sleepy.hexly.ai">Read a poem</a> · <a href="docs/design.md">Design</a> · <a href="docs/verification.md">Verification</a></p>

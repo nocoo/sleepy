@@ -44,7 +44,13 @@ export function App() {
             aria-label="关于 sleepy"
             onClick={openPanel("about")}
           >
-            <span className="brand-moon" />
+            <img
+              className="brand-logo"
+              src="/logo-80.png"
+              width="32"
+              height="32"
+              alt=""
+            />
             <span>
               sleepy<span className="brand-dot">.</span>
             </span>
@@ -64,30 +70,61 @@ export function App() {
             <button
               type="button"
               className="icon-button"
-              title="阅读设置"
               aria-label="阅读设置"
               onClick={openPanel("settings")}
             >
               <Type size={19} />
+              <span className="header-tooltip" role="tooltip">
+                阅读设置
+              </span>
             </button>
+            <a
+              className="icon-button"
+              href="https://hexly.ai/projects/sleepy"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="在 hexly.ai 查看 Sleepy（新标签页）"
+            >
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m12 2 8.66 5v10L12 22l-8.66-5V7Z" />
+                <path d="M12 2v20M3.34 7l17.32 10m0-10L3.34 17" />
+              </svg>
+              <span className="header-tooltip" role="tooltip">
+                在 hexly.ai 查看 Sleepy
+              </span>
+            </a>
             <button
               type="button"
               className="icon-button"
-              title={reader.isDark ? "切换到纸白" : "切换到月夜"}
               aria-label={reader.isDark ? "切换到纸白" : "切换到月夜"}
               onClick={reader.toggleTheme}
             >
               {reader.isDark ? <Sun size={19} /> : <Moon size={19} />}
+              <span className="header-tooltip" role="tooltip">
+                {reader.isDark ? "切换到纸白" : "切换到月夜"}
+              </span>
             </button>
             <button
               ref={reader.quietTriggerRef}
               type="button"
               className="icon-button quiet-trigger"
-              title="沉浸阅读"
               aria-label="沉浸阅读"
               onClick={reader.enterQuiet}
             >
               <Maximize2 size={18} />
+              <span className="header-tooltip" role="tooltip">
+                沉浸阅读
+              </span>
             </button>
           </nav>
         </header>

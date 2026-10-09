@@ -30,6 +30,9 @@ test("opens a complete poem without runtime errors or third-party requests", asy
   });
   await openReader(page);
   await expect(page.locator("h1")).toHaveText("静夜思");
+  await expect(
+    page.getByRole("link", { name: "在 hexly.ai 查看 Sleepy（新标签页）" }),
+  ).toHaveAttribute("href", "https://hexly.ai/projects/sleepy");
   await expect(page.locator(".poem-lines p")).toHaveText([
     "床前明月光，",
     "疑是地上霜。",
