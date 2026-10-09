@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.1.0 - 2026-10-09
+
+- Adopt the approved book identity in the header, About panel, README, browser
+  favicons, and installable PWA icons; preserve source artwork and provenance.
+- Add a Hexly project link with hoverable, keyboard-accessible header tooltips.
+- Emit anonymous `/api/live` JSON with package version and source revision,
+  explicitly served without caching.
+- Provide complete Chinese and English READMEs and preserve deployment guidance.
+- Update pinned development dependencies and remove redundant implementation paths.
+- Extend browser checks for brand assets, health responses, and tooltip interaction.
+
 ## v1.0.0 — 2026-10-02
 
 Initial release, from the repository's unversioned initial commit `65d15c7`.
