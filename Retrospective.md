@@ -86,3 +86,11 @@ The existing all-poems browser journey caught it in Chromium and WebKit. Keep
 44px action targets and reduce the narrow header's inter-group gap instead of
 clipping overflow or hiding the new action. Run the full narrow journey after
 adding any header control, not only the default mobile viewport.
+
+## 2026-10-09 - Test hover content beyond its trigger
+
+Independent review caught header tooltips disappearing when the pointer moved
+from their trigger into the text. Remove the dead gap, keep the tooltip in the
+trigger's hover region and provide Escape dismissal without moving focus.
+Browser regression tests must move a real pointer into the tooltip; a static
+accessibility scan does not exercise this interaction.

@@ -57,6 +57,36 @@ test("opens a complete poem without runtime errors or third-party requests", asy
   });
 });
 
+test("header tooltips remain hoverable and dismiss with Escape", async ({ page }) => {
+  await openReader(page);
+  const trigger = page.getByRole("link", {
+    name: "在 hexly.ai 查看 Sleepy（新标签页）",
+  });
+  const tooltip = trigger.getByRole("tooltip");
+  await trigger.hover();
+  await expect(tooltip).toBeVisible();
+  const bounds = await tooltip.boundingBox();
+  const triggerBounds = await trigger.boundingBox();
+  expect(bounds).not.toBeNull();
+  if (!bounds || !triggerBounds) throw new Error("Missing tooltip bounds");
+  await page.mouse.move(
+    triggerBounds.x + triggerBounds.width / 2,
+    bounds.y + bounds.height / 2,
+    { steps: 12 },
+  );
+  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, {
+    steps: 12,
+  });
+  await expect(tooltip).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(tooltip).toBeHidden();
+  await page.mouse.move(0, 0);
+  await trigger.focus();
+  await expect(tooltip).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(tooltip).toBeHidden();
+});
+
 test("turns pages with controls and keyboard and offers a different surprise", async ({
   page,
 }) => {

@@ -296,7 +296,7 @@ p {
 .header-tooltip {
   position: absolute;
   z-index: 10;
-  top: calc(100% + var(--space-2));
+  top: 100%;
   right: 0;
   width: max-content;
   padding: var(--space-2) var(--space-3);
@@ -305,12 +305,13 @@ p {
   color: var(--paper);
   font-size: 12px;
   line-height: 1.5;
-  opacity: 0;
-  pointer-events: none;
+  visibility: hidden;
 }
-.header-actions .icon-button:hover .header-tooltip,
-.header-actions .icon-button:focus-visible .header-tooltip {
-  opacity: 1;
+.header-actions:not([data-tooltips-dismissed="true"]) .icon-button:hover .header-tooltip,
+.header-actions:not([data-tooltips-dismissed="true"])
+  .icon-button:focus-visible
+  .header-tooltip {
+  visibility: visible;
 }
 .text-button {
   min-height: 44px;

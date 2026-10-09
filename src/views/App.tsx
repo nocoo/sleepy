@@ -13,6 +13,7 @@ import {
   Type,
 } from "lucide-preact";
 import type { TargetedMouseEvent } from "preact";
+import { useEffect, useState } from "preact/hooks";
 import { poems, themeNames } from "../model/poems";
 import { usePwa } from "../viewmodel/usePwa";
 import { type Panel, useReader } from "../viewmodel/useReader";
@@ -23,6 +24,14 @@ export function App() {
   const reader = useReader();
   const pwa = usePwa();
   const { poem } = reader;
+  const [tooltipsDismissed, setTooltipsDismissed] = useState(false);
+  useEffect(() => {
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setTooltipsDismissed(true);
+    };
+    document.addEventListener("keydown", dismiss);
+    return () => document.removeEventListener("keydown", dismiss);
+  }, []);
   const openPanel =
     (panel: Exclude<Panel, null>) => (event: TargetedMouseEvent<HTMLButtonElement>) => {
       event.currentTarget.focus({ preventScroll: true });
@@ -56,7 +65,13 @@ export function App() {
             </span>
           </button>
           <span className="header-note">一首诗，一小片安静。</span>
-          <nav className="header-actions" aria-label="阅读工具">
+          <nav
+            className="header-actions"
+            aria-label="阅读工具"
+            data-tooltips-dismissed={tooltipsDismissed}
+            onMouseLeave={() => setTooltipsDismissed(false)}
+            onFocusCapture={() => setTooltipsDismissed(false)}
+          >
             <button
               type="button"
               className="text-button library-button"

@@ -63,7 +63,10 @@ The full license is preserved in [OFL.txt](../public/fonts/OFL.txt) and in the f
 
 ## Other assets
 
-The moon icon, landscape SVG, and PWA artwork are original code-generated assets.
+The landscape SVG is original code-generated artwork. The approved book Logo and
+PWA artwork derive from Azure OpenAI gpt-image-2.5-sunburst output; exact source
+hashes, owner approval and export roles are recorded in
+[`assets/brand/provenance.json`](../assets/brand/provenance.json).
 Lucide icons retain ISC and the applicable Feather MIT notices.
 The original Preact, Lucide, and Workbox notices are shipped in
 [`THIRD_PARTY_NOTICES.txt`](../public/THIRD_PARTY_NOTICES.txt).
