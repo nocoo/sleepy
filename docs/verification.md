@@ -82,3 +82,24 @@ and `node scripts/deploy.mjs --check`. The deployment embeds the same source SHA
 in `/release.json`, the About view, and Worker version annotations. Production
 HTTPS responses, assets, manifest, service worker, cache policy, and screenshots
 are checked after deployment and reported separately from local evidence.
+
+## Deployment procedure
+
+Cloudflare Worker `sleepy` serves only `dist` at `https://sleepy.hexly.ai`.
+`workers.dev` and preview URLs are disabled. No runtime bindings or application
+secrets are required. HTML, the manifest, and the service worker revalidate;
+only existing hashed assets receive immutable caching. Unknown paths return 404.
+
+After independent review sign-off and CI for the intended source commit, set
+`CLOUDFLARE_ACCOUNT_ID` to the already verified account in the deployment shell:
+
+```sh
+bun run build
+node scripts/deploy.mjs --check
+bun run deploy
+```
+
+Deployment requires a clean tree, a matching build revision, and an interactive
+terminal so unrelated domain conflicts cannot be silently overridden. Stop
+rather than approving replacement of another project's resources. Local brand
+or README review does not itself publish a production release.
