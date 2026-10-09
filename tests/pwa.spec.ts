@@ -48,6 +48,15 @@ test("serves an installable manifest, local icons, and explicit cache policy", a
     "href",
     "/icons/apple-touch-icon.png",
   );
+  await expect(page.locator('link[rel="icon"][type="image/png"]')).toHaveAttribute(
+    "href",
+    "/favicon.png",
+  );
+  for (const path of ["/favicon.png", "/favicon.ico", "/logo-80.png"]) {
+    const image = await request.get(path);
+    expect(image.status()).toBe(200);
+    expect(image.headers()["content-type"]).toMatch(/^image\//);
+  }
   const sw = await request.get("/sw.js");
   expect(sw.status()).toBe(200);
   expect(sw.headers()["content-type"]).toMatch(/javascript/);

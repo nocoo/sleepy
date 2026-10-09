@@ -1047,11 +1047,21 @@ button:active {
 .about-link {
   margin-top: var(--space-4);
 }
+.about-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.about-identity img {
+  flex-shrink: 0;
+  object-fit: contain;
+}
 .about-intro {
   font-family: var(--serif);
   font-size: 23px;
   line-height: 1.9;
-  margin-bottom: var(--space-8);
+  margin: 0;
   text-wrap: balance;
 }
 .source-details {

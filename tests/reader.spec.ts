@@ -87,6 +87,19 @@ test("header tooltips remain hoverable and dismiss with Escape", async ({ page }
   await expect(tooltip).toBeHidden();
 });
 
+test("uses the approved book mark in the header and About panel", async ({ page }) => {
+  await openReader(page);
+  await expect(page.locator(".brand-logo")).toHaveAttribute("src", "/logo-80.png");
+  await page.getByRole("button", { name: "关于 sleepy" }).click();
+  const logo = page.getByRole("img", { name: "Sleepy Logo" });
+  await expect(logo).toBeVisible();
+  await expect(logo).toHaveAttribute("src", "/logo-80.png");
+  await expect
+    .poll(() => logo.evaluate((image) => (image as HTMLImageElement).naturalWidth))
+    .toBe(80);
+  await expectNoHorizontalOverflow(page);
+});
+
 test("turns pages with controls and keyboard and offers a different surprise", async ({
   page,
 }) => {

@@ -94,3 +94,10 @@ from their trigger into the text. Remove the dead gap, keep the tooltip in the
 trigger's hover region and provide Escape dismissal without moving focus.
 Browser regression tests must move a real pointer into the tooltip; a static
 accessibility scan does not exercise this interaction.
+
+## 2026-10-09 - Wait for image decoding in brand tests
+
+The new About-logo test read `naturalWidth` immediately after visibility and
+failed in the Chromium mobile viewport before the image finished loading.
+Visibility proves layout, not image readiness. Poll the decoded width before
+asserting the asset dimensions; retain the same assertion in every browser.

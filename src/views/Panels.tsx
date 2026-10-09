@@ -276,7 +276,12 @@ export function Panels({ reader, pwa }: { reader: Reader; pwa: Pwa }) {
         onClose={close}
         notice={reader.notice}
       >
-        <p className="about-intro">给孩子读一首诗，也让忙了一天的自己，慢慢安静下来。</p>
+        <div className="about-identity">
+          <img src="/logo-80.png" width="64" height="64" alt="Sleepy Logo" />
+          <p className="about-intro">
+            给孩子读一首诗，也让忙了一天的自己，慢慢安静下来。
+          </p>
+        </div>
         <section className="reading-note">
           <h3>把诗集放在手边</h3>
           <p className="offline-status" role="status">
