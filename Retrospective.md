@@ -101,3 +101,9 @@ The new About-logo test read `naturalWidth` immediately after visibility and
 failed in the Chromium mobile viewport before the image finished loading.
 Visibility proves layout, not image readiness. Poll the decoded width before
 asserting the asset dimensions; retain the same assertion in every browser.
+
+## 2026-10-09 - Do not append duplicate preview flags
+
+The preview script already sets `--port 4173`; appending `--port 4174` made
+Wrangler reject two values instead of overriding the port. Inspect the package
+script first and invoke the installed CLI directly when selecting another port.
