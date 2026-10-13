@@ -5,7 +5,7 @@
     "": {
       "name": "sleepy",
       "dependencies": {
-        "lucide-preact": "1.48.0",
+        "lucide-preact": "1.55.0",
         "preact": "10.29.8",
       },
       "devDependencies": {
@@ -837,7 +837,7 @@
 
     "lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha1-HaJ+ZxAnGUdpXa9oSOhH8B2EuSA="],
 
-    "lucide-preact": ["lucide-preact@1.48.0", "", { "peerDependencies": { "preact": "^10.27.2" } }, "sha512-npxBnKSjDvhlPdqWDyQRO3KRJdfA3QtBpkgiGvMAuik8LtCMPuxrrH6Q/DPYcy2a25EDtzkZxAgzgHuvhTm5PQ=="],
+    "lucide-preact": ["lucide-preact@1.55.0", "", { "peerDependencies": { "preact": "^10.27.2 || ^11.0.0-0" } }, "sha512-UB4td1+Jt5U8rjud4lcpXCd82waZzTXTFtVt9KwO2WgN0HmEpoBFrVTKlmwOMD5Kl5ZQfJImgP+DSpEcgWgZrg=="],
 
     "magic-string": ["magic-string@0.30.21", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.5" } }, "sha1-VnY+wJoPqAkd8nh5/ZTRkHjADZE="],
 
