@@ -21,7 +21,7 @@
     "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {
-    "lucide-preact": "1.55.0",
+    "lucide-preact": "1.61.0",
     "preact": "10.29.8"
   },
   "devDependencies": {
