@@ -15,7 +15,6 @@
 ## v1.0.0 — 2026-10-02
 
 Initial release, from the repository's unversioned initial commit `65d15c7`.
-
 - Read 30 classical poems with clear Shijing excerpt labels and source notes.
 - Browse, search, save favorites, resize text, and read in light, dark, or quiet mode.
 - Share a gentle reading moment using original parent prompts and bedtime scripts.
@@ -25,4 +24,3 @@ Initial release, from the repository's unversioned initial commit `65d15c7`.
 - Deploy static assets on Cloudflare Workers with explicit 404 behavior, scoped
   cache headers, no backend storage, and source-revision metadata.
 - Pin a verified TypeScript 7 compiler and validate the app in Chromium and WebKit.
-
