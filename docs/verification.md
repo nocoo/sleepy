@@ -2,7 +2,7 @@
 
 ## Toolchain
 
-Verified locally on 2026-10-02: Node 26.9.0, Bun 1.4.0, TypeScript **7.0.2**, Vite
+Verified locally on 2026-10-02: Node 26.12.1, Bun 1.4.0, TypeScript **7.0.2**, Vite
 8.3.1, Biome 2.5.14, Wrangler 4.139.0, and Playwright 1.63.0. All package versions
 are pinned. Initial installation downloaded and installed the dependencies;
 subsequent frozen-lockfile installation also passed.

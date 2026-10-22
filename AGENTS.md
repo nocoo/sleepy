@@ -16,7 +16,7 @@ Sleepy is a static Chinese poetry reader. The production hostname is exclusively
 
 ## Commands
 
-Use Bun 1.4.0. Node 26.9.0 is verified locally and in the CI configuration.
+Use Bun 1.4.0. Node 26.12.1 is verified locally and in the CI configuration.
 On the owner's machine, follow the global npm mirror rule:
 
 ```sh
