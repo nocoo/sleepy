@@ -22,11 +22,11 @@ no application behavior depends on unverified newer flags.
 The pre-release suite passed **59 checks**, with **one explicit platform skip**.
 It uses real Chromium 153 and WebKit 26.6 engines in isolated browser contexts:
 
-| Project | Viewport | Mode |
-| --- | --- | --- |
-| Chromium desktop | 1440 × 960 | Browser automation |
-| Chromium mobile | 390 × 844 | Touch/device emulation |
-| WebKit mobile | 390 × 844 | iPhone viewport/device emulation |
+| Project          | Viewport   | Mode                             |
+| ---------------- | ---------- | -------------------------------- |
+| Chromium desktop | 1440 × 960 | Browser automation               |
+| Chromium mobile  | 390 × 844  | Touch/device emulation           |
+| WebKit mobile    | 390 × 844  | iPhone viewport/device emulation |
 
 Checks cover both themes and system preference, all 30 poems at 320 px with larger
 type, long-poem scrolling, favorites and immediate reload, search, keyboard

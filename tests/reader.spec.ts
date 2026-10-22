@@ -267,7 +267,7 @@ test("all 30 poems remain readable at a narrow viewport with larger type", async
   await page.getByRole("button", { name: "关闭", exact: true }).click();
   const visited = new Set<string>();
   for (let index = 0; index < 30; index++) {
-    visited.add(await page.locator("h1").innerText());
+    visited.add((await page.locator("h1").textContent()) ?? "");
     await expectNoHorizontalOverflow(page);
     await expect(page.locator(".poem-lines p").first()).not.toBeEmpty();
     await page.getByRole("button", { name: "下一首", exact: true }).click();
@@ -347,7 +347,7 @@ for (const outcome of ["success", "denied"] as const) {
     await expect(feedback).not.toHaveClass(/sr-only/);
     if (outcome === "success") {
       expect(await page.evaluate(() => Reflect.get(window, "sleepyCopiedText"))).toBe(
-        await page.locator(".bedtime-note > p").innerText(),
+        (await page.locator(".bedtime-note > p").textContent()) ?? "",
       );
     }
     await page.screenshot({ path: testInfo.outputPath(`copy-${outcome}-feedback.png`) });

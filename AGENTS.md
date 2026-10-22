@@ -55,4 +55,3 @@ the actual local Workers runtime at `http://127.0.0.1:4173`.
 - Run `node scripts/deploy.mjs --check`, then `bun run deploy` from a TTY with the
   verified `CLOUDFLARE_ACCOUNT_ID`. Stop on any unrelated resource conflict.
 - Never commit credentials, account identifiers, local traces, or browser profiles.
-
