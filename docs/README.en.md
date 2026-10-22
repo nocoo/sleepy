@@ -28,7 +28,7 @@ Standalone mode provides more reading space; ordinary Safari's address bar remai
 
 ## Development
 
-Requires Node.js 22.12+ and Bun 1.4.0. The verified release environment uses Node.js 26.9.0.
+Requires Node.js 22.12+ and Bun 1.4.0. The verified release environment uses Node.js 26.12.1.
 
 ```sh
 bun install --frozen-lockfile

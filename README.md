@@ -28,7 +28,7 @@ Sleepy 是给家长和孩子一起使用的中文古诗阅读器。精选 30 首
 
 ## 开发
 
-需要 Node.js 22.12+ 和 Bun 1.4.0；已验证的发布环境使用 Node.js 26.9.0。
+需要 Node.js 22.12+ 和 Bun 1.4.0；已验证的发布环境使用 Node.js 26.12.1。
 
 ```sh
 bun install --frozen-lockfile
