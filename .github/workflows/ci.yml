@@ -18,6 +18,8 @@ jobs:
       install-policy: blocked
       coverage-path: coverage
       test-command: bun run test:coverage
+      osv-config: osv-scanner.toml
+      gitleaks-config: .gitleaks.toml
       build: true
       build-command: bun run build
 
