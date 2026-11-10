@@ -16,6 +16,8 @@
     "format": "biome check --write .",
     "build": "vite build",
     "preview": "wrangler dev --ip 127.0.0.1 --port 4173",
+    "test:unit": "bun test src",
+    "test:coverage": "bun test src --coverage --coverage-reporter=lcov --coverage-dir=coverage",
     "test:e2e": "playwright test",
     "check": "bun run typecheck && bun run lint && bun run build",
     "deploy": "node scripts/deploy.mjs"

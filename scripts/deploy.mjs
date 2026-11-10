@@ -36,8 +36,10 @@ for (const binding of [
 if (checkOnly) {
   console.log(`Release v${manifest.version} matches ${revision}. No upload performed.`);
 } else {
+  const nonInteractive =
+    process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true";
   assert(
-    process.stdout.isTTY,
+    process.stdout.isTTY || nonInteractive,
     "Use an interactive terminal so Wrangler cannot silently replace conflicting domains.",
   );
   assert(

@@ -1,0 +1,4 @@
+# Transitive build-time dependency from @rollup/plugin-node-resolve; OSV has no fixed release.
+[[IgnoredVulns]]
+id = "GHSA-gcqx-w48m-w2h4"
+reason = "deepmerge 4.3.1 is only pulled in by the Vite/Rollup toolchain; no patched version is published yet."
