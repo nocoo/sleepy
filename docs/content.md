@@ -54,6 +54,7 @@ and 鹿鸣 only the first four phrases of chapter one. Do not remove the excerpt
 of **Noto Serif SC**, version 2.003, weight 400. Copyright 2017–2024 Adobe.
 It is distributed under the **SIL Open Font License 1.1**, not MIT.
 The full license is preserved in [OFL.txt](../public/fonts/OFL.txt) and in the font metadata.
+
 - Source: https://github.com/notofonts/noto-cjk/tree/main/Serif
 - Source binary: https://raw.githubusercontent.com/notofonts/noto-cjk/main/Serif/Variable/TTF/Subset/NotoSerifSC-VF.ttf
 - Source SHA-256: `5326cfb097e3ab26fcb39329752b5c0a439bf8d5c4649520e4b492939c352a09`
