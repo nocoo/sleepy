@@ -14,39 +14,45 @@ export const preferenceKey = "sleepy.preferences";
 export const defaultPoemId = "jing-ye-si";
 const ids = new Set(poems.map((poem) => poem.id));
 
-export function readPreferences(): Preferences {
-  const defaults: Preferences = {
-    theme: "system",
-    textSize: "large",
-    favorites: [],
-    lastPoem: defaultPoemId,
+const defaultPreferences = (): Preferences => ({
+  theme: "system",
+  textSize: "large",
+  favorites: [],
+  lastPoem: defaultPoemId,
+});
+
+export function coercePreferences(saved: unknown): Preferences {
+  const defaults = defaultPreferences();
+  if (!saved || typeof saved !== "object") return defaults;
+  const value = saved as Record<string, unknown>;
+  return {
+    theme: value.theme === "light" || value.theme === "dark" ? value.theme : "system",
+    textSize:
+      value.textSize === "regular" || value.textSize === "larger"
+        ? value.textSize
+        : "large",
+    favorites: Array.isArray(value.favorites)
+      ? [
+          ...new Set(
+            value.favorites.filter(
+              (id): id is string => typeof id === "string" && ids.has(id),
+            ),
+          ),
+        ]
+      : [],
+    lastPoem:
+      typeof value.lastPoem === "string" && ids.has(value.lastPoem)
+        ? value.lastPoem
+        : defaultPoemId,
   };
+}
+
+export function readPreferences(): Preferences {
   try {
     const saved: unknown = JSON.parse(localStorage.getItem(preferenceKey) || "null");
-    if (!saved || typeof saved !== "object") return defaults;
-    const value = saved as Record<string, unknown>;
-    return {
-      theme: value.theme === "light" || value.theme === "dark" ? value.theme : "system",
-      textSize:
-        value.textSize === "regular" || value.textSize === "larger"
-          ? value.textSize
-          : "large",
-      favorites: Array.isArray(value.favorites)
-        ? [
-            ...new Set(
-              value.favorites.filter(
-                (id): id is string => typeof id === "string" && ids.has(id),
-              ),
-            ),
-          ]
-        : [],
-      lastPoem:
-        typeof value.lastPoem === "string" && ids.has(value.lastPoem)
-          ? value.lastPoem
-          : defaultPoemId,
-    };
+    return coercePreferences(saved);
   } catch {
-    return defaults;
+    return defaultPreferences();
   }
 }
 
