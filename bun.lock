@@ -6,7 +6,7 @@
       "name": "sleepy",
       "dependencies": {
         "lucide-preact": "1.70.0",
-        "preact": "10.29.8",
+        "preact": "11.2.0",
       },
       "devDependencies": {
         "@axe-core/playwright": "4.14.0",
@@ -887,7 +887,7 @@
 
     "postcss": ["postcss@8.5.30", "", { "dependencies": { "nanoid": "^3.3.20", "picocolors": "^1.1.1", "source-map-js": "^1.2.2" } }, "sha512-zkd+e9S1AQHhmaBKye9zlFHWjOwVgqXl1q3ECYy8561K7qxR2cREf/STLskulBFd78k6AOFeA+ff1TtEzk9bAA=="],
 
-    "preact": ["preact@10.29.8", "", { "peerDependencies": { "preact-render-to-string": ">=5" }, "optionalPeers": ["preact-render-to-string"] }, "sha1-/IW4LcJHTiRbFDC1F4HUFzYfX8M="],
+    "preact": ["preact@11.2.0", "", { "peerDependencies": { "preact-render-to-string": ">=6.7.0" }, "optionalPeers": ["preact-render-to-string"] }, "sha512-/HfHI/7N84e6GrWBJ3J280z3mLaRJiDcSvj/A+y/4AbLnND/1UlGHe1sR6oYuTGwId0nP7dqDU9OnLxMPZ7xBg=="],
 
     "pretty-bytes": ["pretty-bytes@6.1.1", "", {}, "sha1-OM1rtG9Hr79mfCAs/HVL/9IBajs="],
 
